@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Instagram Avatar</title>
+	<style type="text/css" media="screen">
+		.list-group img { width: 120px; }
+	</style>
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+
+		<div class="container">
+			<h1 class="text-center">Instagram Avatar</h1>
+			<p>Avatar do Usuario do Instagram</p>
+			
+			<hr>
+
+			<ul class="list-group list-inline">
+				<li class="list-group-item"><span class="avatar-insta" data-user="fernando_valler"></span></li>						    		    			
+				<li class="list-group-item"><span class="avatar-insta" data-user="renatavaller"></span></li>						    		    			
+				<li class="list-group-item"><span class="avatar-insta" data-user="bbcbrasil"></span></li>						    		    			
+				<li class="list-group-item"><span class="avatar-insta" data-user="global"></span></li>						    		    			
+				<li class="list-group-item"><span class="avatar-insta" data-user="zaralarsson"></span></li>						    		    			
+				<li class="list-group-item"><span class="avatar-insta" data-user="newyorkcity"></span></li>						    		    			
+			</ul>
+
+			<hr>
+			<h2>Como usar?</h2>		
+
+			<script src="https://gist.github.com/fernandovaller/73d28d6b3e6bc59a3e0788f2f9fef8f1.js"></script>
+
+			<hr>			
+
+		</div>
+
+
+		<!-- jQuery -->
+		<script src="//code.jquery.com/jquery.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		
+		<script>
+			jQuery(document).ready(function($) {				
+				if ($('span').hasClass('avatar-insta')) {
+					$('.avatar-insta').each(function(id, el) {      
+						var user = $(el).data('user');
+						$.ajax({
+							type: 'GET',
+							cache: true,
+							url: 'https://www.instagram.com/' + user,
+							success: function(data) {
+								data = JSON.parse(data.split("window._sharedData = ")[1].split(';')[0]).entry_data.ProfilePage[0];
+								usr_id = data.graphql.user["id"];
+								$.getJSON("https://i.instagram.com/api/v1/users/" + usr_id + "/info/", function(info) {
+									$(el).parent().html('<img src="' + info.user.hd_profile_pic_versions[0]["url"] + '" class="img-fluid rounded-circle mx-auto" />');
+								});
+							}
+						});
+					});
+				}
+			}); 			
+	 			</script>
+	 		</body>
+	 		</html>
